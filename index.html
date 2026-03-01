@@ -8,6 +8,10 @@
     <meta name="theme-color" content="#FF69B4">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <link rel="canonical" href="https://cheerfit.arick.io/">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    <link rel="icon" href="favicon.ico" sizes="any">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -101,6 +105,18 @@
             display: block;
             font-size: var(--size, 16px);
             animation: sparkle var(--dur, 3s) var(--delay, 0s) infinite ease-in-out;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         /* ── Hero ── */
@@ -820,6 +836,14 @@
 </head>
 <body>
 
+<header class="sr-only">
+    <nav aria-label="Main">
+        <a href="/">CheerFit Home</a>
+    </nav>
+</header>
+
+<main>
+
 <!-- ── Hero ── -->
 <section class="hero">
     <div class="sparkle-field" id="sparkles"></div>
@@ -858,7 +882,7 @@
             <div class="hero-phone">
                 <picture>
                     <source srcset="img/iphone-home-min.webp" type="image/webp">
-                    <img src="img/iphone-home-min.png" alt="CheerFit on iPhone">
+                    <img src="img/iphone-home-min.png" alt="CheerFit app home screen on iPhone showing workout routines and skill tracking" width="440" height="956" fetchpriority="high">
                 </picture>
             </div>
         </div>
@@ -876,27 +900,27 @@
         <p class="section-subtitle">Track skills, crush workouts, and watch your progress grow.</p>
 
         <div class="showcase-scene">
-            <div class="floating-card card-1"><span class="fc-emoji">🌟</span> 12 Skills Mastered</div>
-            <div class="floating-card card-2"><span class="fc-emoji">🔥</span> 5 Day Streak</div>
-            <div class="floating-card card-3"><span class="fc-emoji">🏆</span> Tumbling Ace Unlocked!</div>
-            <div class="floating-card card-4"><span class="fc-emoji">📈</span> Level 4 Complete</div>
+            <div class="floating-card card-1"><span class="fc-emoji" aria-hidden="true">🌟</span> 12 Skills Mastered</div>
+            <div class="floating-card card-2"><span class="fc-emoji" aria-hidden="true">🔥</span> 5 Day Streak</div>
+            <div class="floating-card card-3"><span class="fc-emoji" aria-hidden="true">🏆</span> Tumbling Ace Unlocked!</div>
+            <div class="floating-card card-4"><span class="fc-emoji" aria-hidden="true">📈</span> Level 4 Complete</div>
 
             <div class="showcase-device left">
                 <picture>
                     <source srcset="img/ipad-skills-cheer-min.webp" type="image/webp">
-                    <img src="img/ipad-skills-cheer-min.png" alt="CheerFit Skills Screen" loading="lazy">
+                    <img src="img/ipad-skills-cheer-min.png" alt="CheerFit cheer skills browser on iPad with tumbling and stunts levels" width="1032" height="1376" loading="lazy">
                 </picture>
             </div>
             <div class="showcase-device center">
                 <picture>
                     <source srcset="img/ipad-home-min.webp" type="image/webp">
-                    <img src="img/ipad-home-min.png" alt="CheerFit Home Screen" loading="lazy">
+                    <img src="img/ipad-home-min.png" alt="CheerFit home dashboard on iPad with workout cards and progress overview" width="1032" height="1376" loading="lazy">
                 </picture>
             </div>
             <div class="showcase-device right phone">
                 <picture>
                     <source srcset="img/iphone-exercises-min.webp" type="image/webp">
-                    <img src="img/iphone-exercises-min.png" alt="CheerFit Exercises Screen" loading="lazy">
+                    <img src="img/iphone-exercises-min.png" alt="CheerFit exercise list on iPhone with stretching and strength categories" width="440" height="956" loading="lazy">
                 </picture>
             </div>
         </div>
@@ -905,13 +929,13 @@
             <div class="combo-ipad">
                 <picture>
                     <source srcset="img/ipad-profile-min.webp" type="image/webp">
-                    <img src="img/ipad-profile-min.png" alt="CheerFit Profile on iPad" loading="lazy">
+                    <img src="img/ipad-profile-min.png" alt="CheerFit athlete profile on iPad showing skill progress and achievements" width="1032" height="1376" loading="lazy">
                 </picture>
             </div>
             <div class="combo-iphone">
                 <picture>
                     <source srcset="img/iphone-routines-min.webp" type="image/webp">
-                    <img src="img/iphone-routines-min.png" alt="CheerFit Routines on iPhone" loading="lazy">
+                    <img src="img/iphone-routines-min.png" alt="CheerFit guided workout routines on iPhone with timer and exercises" width="440" height="956" loading="lazy">
                 </picture>
             </div>
         </div>
@@ -926,32 +950,32 @@
 
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon" style="background: linear-gradient(135deg, #FF6B8A, #FF8FA3);">🌟</div>
+                <div class="feature-icon" style="background: linear-gradient(135deg, #FF6B8A, #FF8FA3);" aria-hidden="true">🌟</div>
                 <h3>400+ Skills to Master</h3>
                 <p>Browse cheer and gymnastics skills organized by discipline and level. Mark each one as Learning, Practicing, or Mastered.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon" style="background: linear-gradient(135deg, #5B8DEF, #7C6EF0);">🏋️</div>
+                <div class="feature-icon" style="background: linear-gradient(135deg, #5B8DEF, #7C6EF0);" aria-hidden="true">🏋️</div>
                 <h3>Guided Routines</h3>
                 <p>Follow pre-built workout routines with timers, rest periods, and haptic feedback to stay focused during training.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon" style="background: linear-gradient(135deg, #34D399, #5EEAD4);">📚</div>
+                <div class="feature-icon" style="background: linear-gradient(135deg, #34D399, #5EEAD4);" aria-hidden="true">📚</div>
                 <h3>100+ Exercises</h3>
                 <p>Stretching, warm-ups, strength, jumps, flexibility, balance, and cool-downs — each with step-by-step form cues.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon" style="background: linear-gradient(135deg, #FBBF24, #FDE68A);">🏆</div>
+                <div class="feature-icon" style="background: linear-gradient(135deg, #FBBF24, #FDE68A);" aria-hidden="true">🏆</div>
                 <h3>Earn Achievements</h3>
                 <p>Unlock 15 badges as you hit milestones — from First Steps to Tumbling Ace, Beam Queen, and beyond.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon" style="background: linear-gradient(135deg, #A855F7, #C084FC);">📊</div>
+                <div class="feature-icon" style="background: linear-gradient(135deg, #A855F7, #C084FC);" aria-hidden="true">📊</div>
                 <h3>Progress Dashboard</h3>
                 <p>See your skills at a glance. Track what you're learning, practicing, and have fully mastered across every discipline.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon" style="background: linear-gradient(135deg, #FF8C42, #FFAA5C);">💡</div>
+                <div class="feature-icon" style="background: linear-gradient(135deg, #FF8C42, #FFAA5C);" aria-hidden="true">💡</div>
                 <h3>Smart Recommendations</h3>
                 <p>Get personalized suggestions for your next skills based on your current progress and training level.</p>
             </div>
@@ -967,7 +991,7 @@
 
         <div class="skills-columns">
             <div class="skills-column">
-                <h3>📣 Cheer Skills</h3>
+                <h3><span aria-hidden="true">📣</span> Cheer Skills</h3>
                 <div>
                     <span class="skill-tag" style="background: var(--tumbling);">Tumbling <span class="skill-count">7 levels</span></span>
                     <span class="skill-tag" style="background: var(--stunts);">Stunts <span class="skill-count">7 levels</span></span>
@@ -977,7 +1001,7 @@
                 <p style="color: var(--text-secondary); font-size: 0.92rem; margin-top: 8px;">194 skills across 4 disciplines based on USASF level progressions.</p>
             </div>
             <div class="skills-column">
-                <h3>🤸 Gymnastics Skills</h3>
+                <h3><span aria-hidden="true">🤸</span> Gymnastics Skills</h3>
                 <div>
                     <span class="skill-tag" style="background: var(--floor);">Floor <span class="skill-count">10 levels</span></span>
                     <span class="skill-tag" style="background: var(--bars);">Bars <span class="skill-count">10 levels</span></span>
@@ -993,32 +1017,32 @@
 <!-- ── Pro ── -->
 <section class="pro-section">
     <div class="section-inner">
-        <h2 class="section-title">Go Pro ✨</h2>
+        <h2 class="section-title">Go Pro <span aria-hidden="true">✨</span></h2>
         <p class="section-subtitle">Unlock the full CheerFit experience with a single purchase. No subscriptions. No ads.</p>
 
         <div class="pro-grid">
             <div class="pro-card">
-                <span class="icon">♾️</span>
+                <span class="icon" aria-hidden="true">♾️</span>
                 <h3>Unlimited Routines</h3>
                 <p>Create as many custom routines as you want</p>
             </div>
             <div class="pro-card">
-                <span class="icon">📈</span>
+                <span class="icon" aria-hidden="true">📈</span>
                 <h3>Pro Stats & Streaks</h3>
                 <p>Weekly charts, streaks, and detailed analytics</p>
             </div>
             <div class="pro-card">
-                <span class="icon">🛠️</span>
+                <span class="icon" aria-hidden="true">🛠️</span>
                 <h3>Custom Exercises</h3>
                 <p>Build your own exercises from scratch</p>
             </div>
             <div class="pro-card">
-                <span class="icon">🔊</span>
+                <span class="icon" aria-hidden="true">🔊</span>
                 <h3>Voice Cues</h3>
                 <p>Hear exercise names and tips during workouts</p>
             </div>
             <div class="pro-card">
-                <span class="icon">🎨</span>
+                <span class="icon" aria-hidden="true">🎨</span>
                 <h3>Extra Customization</h3>
                 <p>Unlock premium avatars, colors, and photo profiles</p>
             </div>
@@ -1029,6 +1053,8 @@
         </div>
     </div>
 </section>
+
+</main>
 
 <!-- ── Footer ── -->
 <footer>
