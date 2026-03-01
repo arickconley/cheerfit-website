@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CheerFit — Cheer & Gymnastics Training</title>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pink: #FF69B4;
+            --purple: #7C6EF0;
+            --pink-light: #FF8FA3;
+            --purple-light: #C084FC;
+            --text-primary: #1a1a2e;
+            --text-secondary: #555;
+            --bg: #fffafc;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-shadow: 0 4px 24px rgba(124, 110, 240, 0.10), 0 1px 6px rgba(255, 105, 180, 0.08);
+            --radius: 14px;
+            --radius-lg: 20px;
+
+            /* discipline colors */
+            --tumbling: #FF6B8A;
+            --stunts: #5B8DEF;
+            --pyramids: #A855F7;
+            --dismounts: #FF8C42;
+            --floor: #34D399;
+            --bars: #F472B6;
+            --beam: #FBBF24;
+            --vault: #60A5FA;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Rounded', system-ui, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text-primary);
+            background: var(--bg);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Sparkle Animations ── */
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-20px) rotate(10deg); opacity: 1; }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 105, 180, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(255, 105, 180, 0.5), 0 0 60px rgba(124, 110, 240, 0.2); }
+        }
+
+        .sparkle-field {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .sparkle-field span {
+            position: absolute;
+            display: block;
+            font-size: var(--size, 16px);
+            animation: sparkle var(--dur, 3s) var(--delay, 0s) infinite ease-in-out;
+        }
+
+        /* ── Hero ── */
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 24px 80px;
+            background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 50%, #6C5CE7 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.12) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 960px;
+            width: 100%;
+        }
+
+        .hero-layout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 48px;
+        }
+
+        .hero-text {
+            text-align: left;
+            max-width: 480px;
+            flex-shrink: 0;
+        }
+
+        .hero-phone {
+            flex-shrink: 0;
+            perspective: 800px;
+        }
+
+        .hero-phone img {
+            width: min(220px, 28vw);
+            border-radius: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.45);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35), 0 10px 20px rgba(0, 0, 0, 0.2);
+            transform: rotateY(-8deg) rotateX(2deg);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .hero-phone img:hover {
+            transform: rotateY(-3deg) rotateX(1deg) scale(1.03);
+        }
+
+        .hero-title {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1;
+            margin: 0;
+            color: #fff0f6;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15), 0 0 30px rgba(255, 105, 180, 0.2);
+        }
+
+        .hero .by-line {
+            font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-top: 2px;
+            color: rgba(255, 255, 255, 0.65);
+            font-style: italic;
+            text-shadow: 0 0 12px rgba(255, 105, 180, 0.35);
+        }
+
+        .hero .tagline {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.92);
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 36px;
+            max-width: 460px;
+            line-height: 1.5;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 32px;
+            justify-content: center;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: center;
+            color: white;
+        }
+
+        .hero-stat .number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            display: block;
+            line-height: 1;
+        }
+
+        .hero-stat .label {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .app-store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        .app-store-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .app-store-btn:active {
+            transform: scale(0.97);
+        }
+
+        .app-store-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .hero-wave {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            color: var(--bg);
+        }
+
+        /* ── Section shared ── */
+
+        section {
+            padding: 80px 24px;
+        }
+
+        .section-inner {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 48px;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        /* ── Features Grid ── */
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 105, 180, 0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(124, 110, 240, 0.15), 0 2px 8px rgba(255, 105, 180, 0.10);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        /* ── Skills Showcase ── */
+
+        .skills-section {
+            background: linear-gradient(180deg, var(--bg) 0%, #f8f0ff 50%, var(--bg) 100%);
+        }
+
+        .skills-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        @media (max-width: 700px) {
+            .skills-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .skills-column h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            color: white;
+            margin: 0 8px 10px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+            transition: transform 0.2s;
+        }
+
+        .skill-tag:hover {
+            transform: scale(1.06);
+        }
+
+        .skill-count {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* ── Pro Section ── */
+
+        .pro-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pro-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 105, 180, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(124, 110, 240, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .pro-section .section-title {
+            background: linear-gradient(135deg, var(--pink-light), var(--purple-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .pro-section .section-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .pro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pro-card {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .pro-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.10);
+        }
+
+        .pro-card .icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .pro-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .pro-card p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.4;
+        }
+
+        .pro-badge {
+            display: inline-block;
+            margin-top: 36px;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Footer ── */
+
+        footer {
+            text-align: center;
+            padding: 48px 24px;
+            background: var(--bg);
+            border-top: 1px solid rgba(124, 110, 240, 0.10);
+        }
+
+        footer .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        footer .byline {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        footer nav {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        footer nav a {
+            color: var(--purple);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        footer nav a:hover {
+            color: var(--pink);
+        }
+
+        footer .copyright {
+            margin-top: 20px;
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+
+        /* ── 3D Screenshot Showcase ── */
+
+        .showcase-section {
+            background: linear-gradient(180deg, var(--bg) 0%, #f0e6ff 40%, #ffe8f3 60%, var(--bg) 100%);
+            overflow: hidden;
+        }
+
+        .showcase-scene {
+            perspective: 1400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            padding: 20px 0 40px;
+            position: relative;
+        }
+
+        .showcase-device {
+            position: relative;
+            flex-shrink: 0;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .showcase-device img {
+            display: block;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(124, 110, 240, 0.15);
+            border: 3px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .showcase-device.left {
+            transform: rotateY(18deg) translateZ(-40px) translateX(60px);
+            z-index: 1;
+        }
+
+        .showcase-device.left img {
+            width: min(320px, 30vw);
+        }
+
+        .showcase-device.center {
+            transform: rotateY(0deg) translateZ(60px);
+            z-index: 3;
+        }
+
+        .showcase-device.center img {
+            width: min(420px, 44vw);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3), 0 12px 40px rgba(255, 105, 180, 0.2);
+        }
+
+        .showcase-device.right {
+            transform: rotateY(-18deg) translateZ(-40px) translateX(-60px);
+            z-index: 1;
+        }
+
+        .showcase-device.right img {
+            width: min(320px, 30vw);
+        }
+
+        .showcase-device.right.phone img {
+            width: min(200px, 20vw);
+            border-radius: 24px;
+        }
+
+        .showcase-device:hover {
+            z-index: 4;
+        }
+
+        .showcase-device.left:hover {
+            transform: rotateY(8deg) translateZ(20px) translateX(60px) scale(1.05);
+        }
+
+        .showcase-device.center:hover {
+            transform: rotateY(0deg) translateZ(80px) scale(1.04);
+        }
+
+        .showcase-device.right:hover {
+            transform: rotateY(-8deg) translateZ(20px) translateX(-60px) scale(1.05);
+        }
+
+        /* Floating UI card elements */
+        .floating-card {
+            position: absolute;
+            background: white;
+            border-radius: 12px;
+            padding: 10px 16px;
+            box-shadow: 0 8px 32px rgba(124, 110, 240, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            z-index: 5;
+            pointer-events: none;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .floating-card.card-1 {
+            top: 8%;
+            left: 4%;
+            animation-delay: 0s;
+            border-left: 3px solid var(--pink);
+        }
+
+        .floating-card.card-2 {
+            top: 15%;
+            right: 4%;
+            animation-delay: 1.5s;
+            border-left: 3px solid var(--purple);
+        }
+
+        .floating-card.card-3 {
+            bottom: 12%;
+            left: 8%;
+            animation-delay: 3s;
+            border-left: 3px solid var(--floor);
+        }
+
+        .floating-card.card-4 {
+            bottom: 8%;
+            right: 6%;
+            animation-delay: 2s;
+            border-left: 3px solid var(--beam);
+        }
+
+        .floating-card .fc-emoji {
+            margin-right: 6px;
+        }
+
+        /* Phone + iPad combo section */
+        .showcase-combo {
+            perspective: 1200px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 0;
+            padding: 0 0 20px;
+            position: relative;
+        }
+
+        .combo-ipad {
+            transform: rotateY(-6deg) rotateX(2deg);
+            z-index: 1;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .combo-ipad:hover {
+            transform: rotateY(-3deg) rotateX(1deg) scale(1.02);
+        }
+
+        .combo-ipad img {
+            width: min(480px, 55vw);
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(124, 110, 240, 0.15);
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            display: block;
+        }
+
+        .combo-iphone {
+            transform: rotateY(8deg) rotateX(2deg) translateX(-60px);
+            z-index: 2;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .combo-iphone:hover {
+            transform: rotateY(4deg) rotateX(1deg) translateX(-60px) scale(1.03);
+        }
+
+        .combo-iphone img {
+            width: min(160px, 20vw);
+            border-radius: 20px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(255, 105, 180, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.7);
+            display: block;
+        }
+
+        /* ── Responsive ── */
+
+        @media (max-width: 600px) {
+            section {
+                padding: 56px 16px;
+            }
+
+            .hero {
+                padding: 48px 16px 64px;
+                min-height: auto;
+            }
+
+            .hero-stats {
+                gap: 20px;
+            }
+
+            .hero-stat .number {
+                font-size: 1.7rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pro-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero-layout {
+                flex-direction: column;
+                text-align: center;
+                gap: 32px;
+            }
+
+            .hero-text {
+                text-align: center;
+            }
+
+            .hero .subtitle {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-phone img {
+                width: 45vw;
+            }
+
+            .floating-card {
+                display: none;
+            }
+
+            .showcase-device.left,
+            .showcase-device.right {
+                display: none;
+            }
+
+            .showcase-device.center {
+                transform: none;
+            }
+
+            .showcase-device.center img {
+                width: 90vw;
+            }
+
+            .combo-ipad img {
+                width: 65vw;
+            }
+
+            .combo-iphone img {
+                width: 22vw;
+            }
+
+            .combo-iphone {
+                transform: rotateY(8deg) translateX(-30px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── Hero ── -->
+<section class="hero">
+    <div class="sparkle-field" id="sparkles"></div>
+
+    <div class="hero-content">
+        <div class="hero-layout">
+            <div class="hero-text">
+                <div class="hero-title">
+                    <h1>CheerFit</h1>
+                    <span class="by-line">by Maisie</span>
+                </div>
+                <p class="tagline">Train Like a Champion</p>
+                <p class="subtitle">The personal workout companion for cheerleaders and gymnasts. Track skills, follow guided routines, and level up your training.</p>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="number">400+</span>
+                        <span class="label">Skills</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="number">100+</span>
+                        <span class="label">Exercises</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="number">15</span>
+                        <span class="label">Badges</span>
+                    </div>
+                </div>
+
+                <a href="#" class="app-store-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    Download on the App Store
+                </a>
+            </div>
+
+            <div class="hero-phone">
+                <img src="screenshots/iphone-home.png" alt="CheerFit on iPhone">
+            </div>
+        </div>
+    </div>
+
+    <svg class="hero-wave" viewBox="0 0 1440 80" preserveAspectRatio="none" fill="currentColor">
+        <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,80 L0,80 Z"/>
+    </svg>
+</section>
+
+<!-- ── Screenshot Showcase ── -->
+<section class="showcase-section">
+    <div class="section-inner">
+        <h2 class="section-title">See It in Action</h2>
+        <p class="section-subtitle">Track skills, crush workouts, and watch your progress grow.</p>
+
+        <div class="showcase-scene">
+            <div class="floating-card card-1"><span class="fc-emoji">🌟</span> 12 Skills Mastered</div>
+            <div class="floating-card card-2"><span class="fc-emoji">🔥</span> 5 Day Streak</div>
+            <div class="floating-card card-3"><span class="fc-emoji">🏆</span> Tumbling Ace Unlocked!</div>
+            <div class="floating-card card-4"><span class="fc-emoji">📈</span> Level 4 Complete</div>
+
+            <div class="showcase-device left">
+                <img src="screenshots/ipad-skills-cheer.png" alt="CheerFit Skills Screen" loading="lazy">
+            </div>
+            <div class="showcase-device center">
+                <img src="screenshots/ipad-home.png" alt="CheerFit Home Screen" loading="lazy">
+            </div>
+            <div class="showcase-device right phone">
+                <img src="screenshots/iphone-exercises.png" alt="CheerFit Exercises Screen" loading="lazy">
+            </div>
+        </div>
+
+        <div class="showcase-combo">
+            <div class="combo-ipad">
+                <img src="screenshots/ipad-profile.png" alt="CheerFit Profile on iPad" loading="lazy">
+            </div>
+            <div class="combo-iphone">
+                <img src="screenshots/iphone-routines.png" alt="CheerFit Routines on iPhone" loading="lazy">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Features ── -->
+<section>
+    <div class="section-inner">
+        <h2 class="section-title">Everything You Need to Train</h2>
+        <p class="section-subtitle">Built for athletes who are ready to level up. Track your progress from beginner to mastered.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #FF6B8A, #FF8FA3);">🌟</div>
+                <h3>400+ Skills to Master</h3>
+                <p>Browse cheer and gymnastics skills organized by discipline and level. Mark each one as Learning, Practicing, or Mastered.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #5B8DEF, #7C6EF0);">🏋️</div>
+                <h3>Guided Routines</h3>
+                <p>Follow pre-built workout routines with timers, rest periods, and haptic feedback to stay focused during training.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #34D399, #5EEAD4);">📚</div>
+                <h3>100+ Exercises</h3>
+                <p>Stretching, warm-ups, strength, jumps, flexibility, balance, and cool-downs — each with step-by-step form cues.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #FBBF24, #FDE68A);">🏆</div>
+                <h3>Earn Achievements</h3>
+                <p>Unlock 15 badges as you hit milestones — from First Steps to Tumbling Ace, Beam Queen, and beyond.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #A855F7, #C084FC);">📊</div>
+                <h3>Progress Dashboard</h3>
+                <p>See your skills at a glance. Track what you're learning, practicing, and have fully mastered across every discipline.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: linear-gradient(135deg, #FF8C42, #FFAA5C);">💡</div>
+                <h3>Smart Recommendations</h3>
+                <p>Get personalized suggestions for your next skills based on your current progress and training level.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Skills Showcase ── -->
+<section class="skills-section">
+    <div class="section-inner">
+        <h2 class="section-title">Every Discipline. Every Event.</h2>
+        <p class="section-subtitle">From back handsprings to bar routines — CheerFit covers it all.</p>
+
+        <div class="skills-columns">
+            <div class="skills-column">
+                <h3>📣 Cheer Skills</h3>
+                <div>
+                    <span class="skill-tag" style="background: var(--tumbling);">Tumbling <span class="skill-count">7 levels</span></span>
+                    <span class="skill-tag" style="background: var(--stunts);">Stunts <span class="skill-count">7 levels</span></span>
+                    <span class="skill-tag" style="background: var(--pyramids);">Pyramids <span class="skill-count">7 levels</span></span>
+                    <span class="skill-tag" style="background: var(--dismounts);">Dismounts & Tosses <span class="skill-count">7 levels</span></span>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.92rem; margin-top: 8px;">194 skills across 4 disciplines based on USASF level progressions.</p>
+            </div>
+            <div class="skills-column">
+                <h3>🤸 Gymnastics Skills</h3>
+                <div>
+                    <span class="skill-tag" style="background: var(--floor);">Floor <span class="skill-count">10 levels</span></span>
+                    <span class="skill-tag" style="background: var(--bars);">Bars <span class="skill-count">10 levels</span></span>
+                    <span class="skill-tag" style="background: var(--beam);">Beam <span class="skill-count">10 levels</span></span>
+                    <span class="skill-tag" style="background: var(--vault);">Vault <span class="skill-count">10 levels</span></span>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.92rem; margin-top: 8px;">238 skills across 4 events based on USA Gymnastics level progressions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Pro ── -->
+<section class="pro-section">
+    <div class="section-inner">
+        <h2 class="section-title">Go Pro ✨</h2>
+        <p class="section-subtitle">Unlock the full CheerFit experience with a single purchase. No subscriptions. No ads.</p>
+
+        <div class="pro-grid">
+            <div class="pro-card">
+                <span class="icon">♾️</span>
+                <h3>Unlimited Routines</h3>
+                <p>Create as many custom routines as you want</p>
+            </div>
+            <div class="pro-card">
+                <span class="icon">📈</span>
+                <h3>Pro Stats & Streaks</h3>
+                <p>Weekly charts, streaks, and detailed analytics</p>
+            </div>
+            <div class="pro-card">
+                <span class="icon">🛠️</span>
+                <h3>Custom Exercises</h3>
+                <p>Build your own exercises from scratch</p>
+            </div>
+            <div class="pro-card">
+                <span class="icon">🔊</span>
+                <h3>Voice Cues</h3>
+                <p>Hear exercise names and tips during workouts</p>
+            </div>
+            <div class="pro-card">
+                <span class="icon">🎨</span>
+                <h3>Extra Customization</h3>
+                <p>Unlock premium avatars, colors, and photo profiles</p>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <span class="pro-badge">One-Time Purchase — Yours Forever</span>
+        </div>
+    </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+    <div class="brand">CheerFit</div>
+    <p class="byline">Built for cheerleaders and gymnasts by Maisie</p>
+    <nav>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="mailto:support@cheerfit.com">Contact Us</a>
+    </nav>
+    <p class="copyright">&copy; 2026 CheerFit. All rights reserved.</p>
+</footer>
+
+<script>
+    // Generate sparkle stars in the hero
+    const field = document.getElementById('sparkles');
+    const symbols = ['✨', '💫', '⭐'];
+    for (let i = 0; i < 8; i++) {
+        const span = document.createElement('span');
+        span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        span.style.setProperty('--size', (10 + Math.random() * 18) + 'px');
+        span.style.setProperty('--dur', (2 + Math.random() * 4) + 's');
+        span.style.setProperty('--delay', (Math.random() * 5) + 's');
+        span.style.left = Math.random() * 100 + '%';
+        span.style.top = Math.random() * 100 + '%';
+        field.appendChild(span);
+    }
+</script>
+
+</body>
+</html>
